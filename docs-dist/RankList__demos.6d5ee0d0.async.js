@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreact_gonglu_design=self.webpackChunkreact_gonglu_design||[]).push([[938,883],{81564:function(s,a,n){n.r(a);var c=n(67294),r=n(98957),t=n(85893);function e(){var _=Array.from(new Array(10)).map(function(l,u){return{label:"\u9009\u9879".concat(u+1),value:10-u}});return(0,t.jsx)("div",{children:(0,t.jsx)(r.RankList,{data:_})})}a.default=e}}]);

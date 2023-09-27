@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreact_gonglu_design=self.webpackChunkreact_gonglu_design||[]).push([[448],{12535:function(f,n,e){e.r(n),e.d(n,{default:function(){return u}});var a=e(49777),o=e(67294),r=function(){var d=(0,a.UO)(),s=d.id,m=(0,a.WF)(),c=m.demos,g=c[s]||{},t=g.component;return t&&(0,o.createElement)(t)},u=r}}]);

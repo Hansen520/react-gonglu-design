@@ -1,0 +1,53 @@
+.dv-scroll-board {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .header {
+    display: flex;
+    flex-direction: row;
+    font-size: 15px;
+
+    .header-item {
+      padding: 0;
+      box-sizing: border-box;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: all 0.3s;
+      &:first-child {
+        padding-left: 10px;
+      }
+      &:last-child {
+        padding-right: 10px;
+      }
+    }
+  }
+  .rows {
+    overflow: hidden;
+    .row-item {
+      display: flex;
+      font-size: 14px;
+      transition: all 0.3s;
+
+    }
+
+    .ceil {
+      padding: 0;
+      box-sizing: border-box;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:first-child {
+        padding-left: 10px;
+      }
+      &:last-child {
+        padding-right: 10px;
+      }
+    }
+
+    .index {
+      border-radius: 3px;
+      padding: 0px 3px;
+    }
+  }
+}
