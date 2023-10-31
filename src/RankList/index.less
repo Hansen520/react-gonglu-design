@@ -1,33 +1,78 @@
-.rank-list {
-    position: relative;
-    height: 100%;
-    ul {
-      margin: 0px;
-      padding: 0px;
-      li {
-        height: 24px;
-        margin: 16px 0px;
-        display: flex;
-        align-items: center;
-        .rank {
-          flex-shrink: 0;
-          display: flex;
-          justify-content: center;
-          width: 20px;
-          height: 20px;
-          line-height: 20px;
-          margin-right: 6px;
-          border-radius: 50%;
+.gong-lu_rank-list {
+  position: relative;
+  height: 100%;
+  background-color: #fcfcfc;
+  .gong-lu_header {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    color: #000;
+    font-size: 12px;
+    li {
+      list-style: none;
+      width: calc(100% / 4);
+      &:first-child {
+        position: relative;
+        left: 30px;
+      }
+    }
+  }
+  .gong-lu_body {
+    margin: 0px;
+    padding: 0px;
+    font-size: 16px;
+    .gong-lu_body-li0 {
+      background: url('./assets/yellow_bottom_bg.svg') no-repeat 100% 100%;
+      background-size: cover;
+      .gong-lu_index {
+        border: 1px solid #fff384;
+        background: linear-gradient(137deg, rgba(255, 243, 132, 0) 1.01%, rgba(255, 243, 132, 0.75) 97.98%);
+      }
+    }
+    .gong-lu_body-li1 {
+      background: url('./assets/grey_bottom_bg.svg') no-repeat 100% 100%;
+      background-size: cover;
+      .gong-lu_index {
+        border: 1px solid #b0dfff;
+        background: linear-gradient(137deg, rgba(176, 223, 255, 0) 1.01%, rgba(176, 223, 255, 0.5) 97.98%);
+      }
+    }
+    .gong-lu_body-li2 {
+      background: url('./assets/orange_bottom_bg.svg') no-repeat 100% 100%;
+      background-size: cover;
+      .gong-lu_index {
+        border: 1px solid #e8ab63;
+        background: linear-gradient(137deg, rgba(232, 171, 99, 0) 1.01%, rgba(232, 171, 99, 0.5) 97.98%);
+      }
+    }
+    li {
+      height: 48px;
+      margin: 16px 0px;
+      display: flex;
+      align-items: center;
+      .gong-lu_flex {
+        width: calc(100% / 4);
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &:first-child {
+          position: relative;
+          left: 30px;
         }
-        .name {
-          flex: 1;
+        .gong-lu_index {
+          width: 24px;
+          height: 24px;
+          line-height: 24px;
+          text-align: center;
         }
       }
     }
-    .empty {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
   }
+  .gong-lu-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

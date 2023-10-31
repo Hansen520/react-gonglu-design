@@ -1,12 +1,11 @@
 import { Button, Form, message, Upload } from 'antd';
-import { CodeSandboxCircleFilled, InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import _ from 'lodash';
 import pLimit from 'p-limit';
 import SparkMD5 from 'spark-md5';
 import { useState } from 'react';
 // import { config as iceConfig } from 'ice';
-// import appStore from '@/store';
 import styles from './index.module.less';
 
 // const { BASE_URL } = iceConfig;
@@ -115,12 +114,12 @@ const changeBuffer = (file: File) => {
  * @param {*} DEFAULT_CHUNK_SIZE // 默认单个切片大小
  */
 const getInitConfig = async (
-  fileLength,
-  fileName,
-  requireAction,
-  HASH,
+  fileLength: any,
+  fileName: string,
+  requireAction: string,
+  HASH: string,
   DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024,
-  uploadIdAndErrorId,
+  uploadIdAndErrorId: string,
 ) => {
   // 数据基本化配置
   let result;
@@ -188,7 +187,6 @@ const uploadSlice = async (config: any, successCallback, failCallback) => {
   if (fileChunksList.length < 1) {
     return false;
   }
-  console.log(fileChunksList, 192);
   /* 加载失败后用于断点续传的功能 */
   const reUpload = () => {
     let chunks: any = [];
@@ -279,27 +277,29 @@ const completeMerge = async (config) => {
   return { fileName, fileLength };
 };
 
+/* 入口函数 */
 const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
+  /* 这边可以设置全局默认参数 */
   const {
     name = 'file',
     title = '上传',
     requireAction = 'http://192.168.1.86:2231',
     listType = 'picture',
-    minSliceSize = 5,
-    limitRequire = 6,
+    minSliceSize = 0.25,
+    limitRequire = 2,
     fieldProps,
     formItemFieldProps,
     className,
     children,
   } = props;
   /* 当前文件上传的状态 done为已上传完毕，uploading正在上传 */
-  const [uploadStatus, setUploadStatus] = useState('done');
+  const [uploadStatus, setUploadStatus] = useState<string>('done');
   /* 切片上传进度详情 */
-  const [sliceProgressDetail, setSliceProgressDetail] = useState(0);
+  const [sliceProgressDetail, setSliceProgressDetail] = useState<number>(0);
   /* 用于上传的签名(也用于断点续传的签名Id) */
-  const [uploadIdAndErrorId, setUploadIdAndErrorId] = useState({});
+  const [uploadIdAndErrorId, setUploadIdAndErrorId] = useState<any>({});
   /* 文件上传前进行的一系列操作 */
-  const customRequest = async (option) => {
+  const customRequest = async (option: any) => {
     /* 先判断下有没有断点续传的文件 */
     const _file = option.file as File;
     /* 要处理的文件数据 */
@@ -330,7 +330,7 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
         uploadIdAndErrorId, // 文件上传错误集合
       },
       /* 成功 */
-      (count, handleReqUrl) => {
+      (count: number, handleReqUrl: string) => {
         /* 获取计数 */
         setSliceProgressDetail(Math.round((count / handleReqUrl.length) * 100));
         if (count === handleReqUrl.length) {
@@ -340,7 +340,7 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
         }
       },
       /* 失败 */
-      (_uploadId) => {
+      (_uploadId: string) => {
         setSliceProgressDetail(0); /* 进度跳为0 */
         setUploadStatus('error');
         setUploadIdAndErrorId({ ...uploadIdAndErrorId, [fileName + fileLength]: _uploadId }); /* 失败的uploadId */
@@ -348,12 +348,12 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
       },
     );
     /* 断点续传重新上传时，清除一次标记 */
-    if (uploadIdAndErrorId[fileName + fileLength]) {
+    if (uploadIdAndErrorId[`${fileName}${fileLength}`]) {
       setUploadIdAndErrorId({ ...uploadIdAndErrorId, [fileName + fileLength]: null });
     }
   };
   /* 上传前的控制 */
-  const changeUpload = (file) => {
+  const changeUpload = (file: any) => {
     setUploadStatus(file.file.status);
     return false;
   };
@@ -365,7 +365,7 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
     }
   };
   /* 垃圾桶撤销 */
-  const removeUpload = (file) => {
+  const removeUpload = (file: any) => {
     if (file.status === 'uploading') {
       message?.warning('文件正在上传中，请稍后...');
       return false;

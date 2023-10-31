@@ -338,7 +338,6 @@ const ScrollBoard = forwardRef(({ onClick, config, className, style, onMouseOver
     setState((state: any) => ({ ...state, ...data }));
   };
 
-  console.log(rows, 341);
   /* 计算宽度 */
   const calcWidths = ({ columnWidth, header }: any, rowsData: any) => {
     /* 总宽 */
