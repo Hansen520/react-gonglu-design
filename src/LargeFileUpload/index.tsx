@@ -1,10 +1,10 @@
+import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, message, Upload } from 'antd';
-import { CodeSandboxCircleFilled, InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import pLimit from 'p-limit';
-import SparkMD5 from 'spark-md5';
 import { useState } from 'react';
+import SparkMD5 from 'spark-md5';
 // import { config as iceConfig } from 'ice';
 // import appStore from '@/store';
 import styles from './index.module.less';
@@ -115,12 +115,12 @@ const changeBuffer = (file: File) => {
  * @param {*} DEFAULT_CHUNK_SIZE // 默认单个切片大小
  */
 const getInitConfig = async (
-  fileLength,
-  fileName,
-  requireAction,
-  HASH,
+  fileLength: number,
+  fileName: string,
+  requireAction: string,
+  HASH: string,
   DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024,
-  uploadIdAndErrorId,
+  uploadIdAndErrorId: any,
 ) => {
   // 数据基本化配置
   let result;
@@ -160,7 +160,7 @@ const getInitConfig = async (
  * @description: 创建文件切片
  * @param {*} file
  */
-const createChunks = (file, chunkSize = 5 * 1024 * 1024) => {
+const createChunks = (file: File, chunkSize = 5 * 1024 * 1024) => {
   console.log(file, file.name, 164);
   let fileChunkList: any = [];
   let cur = 0;
@@ -169,11 +169,45 @@ const createChunks = (file, chunkSize = 5 * 1024 * 1024) => {
     cur += chunkSize;
   }
   console.log(fileChunkList, 171);
-  const _fileChunkList = fileChunkList.map((item) => {
+  const _fileChunkList = fileChunkList.map((item: any) => {
     return new Blob([item], { type: '' });
   });
   console.log(_fileChunkList, 174);
   return _fileChunkList;
+};
+
+/**
+ * @description: 完成切片合并的操作
+ * @param {*} config 相关的配置
+ */
+const completeMerge = async (config: any) => {
+  const {
+    chunksCount,
+    reqUrlList,
+    requireAction,
+    uploadId: _uploadId,
+    fileName,
+    fileLength,
+  } = config;
+  if (chunksCount < reqUrlList.length) {
+    return false;
+  }
+
+  try {
+    await axios.post(
+      `${requireAction}/fileupload/upload/complete`,
+      { uploadId: _uploadId },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    );
+  } catch (error) {
+    console.error(error, '操作失败');
+  }
+  /*  如果最后成功断点续传对应的标记去掉 */
+  return { fileName, fileLength };
 };
 
 /**
@@ -182,9 +216,21 @@ const createChunks = (file, chunkSize = 5 * 1024 * 1024) => {
  * @param {*} successCallback 成功的回调
  * @param {*} failCallback 失败的回调
  */
-const uploadSlice = async (config: any, successCallback, failCallback) => {
-  let { fileChunksList, reqUrlList, requireAction, uploadId, limitRequire, fileName, fileLength, uploadIdAndErrorId } =
-    config;
+const uploadSlice = async (
+  config: any,
+  successCallback: any,
+  failCallback: any,
+) => {
+  let {
+    fileChunksList,
+    reqUrlList,
+    requireAction,
+    uploadId,
+    limitRequire,
+    fileName,
+    fileLength,
+    uploadIdAndErrorId,
+  } = config;
   if (fileChunksList.length < 1) {
     return false;
   }
@@ -204,7 +250,8 @@ const uploadSlice = async (config: any, successCallback, failCallback) => {
     };
   };
   if (uploadIdAndErrorId[fileName + fileLength]) {
-    const { urls, chunks } = uploadIdAndErrorId[fileName + fileLength] && reUpload();
+    const { urls, chunks } =
+      uploadIdAndErrorId[fileName + fileLength] && reUpload();
     reqUrlList = urls;
     fileChunksList = chunks;
   }
@@ -252,32 +299,6 @@ const uploadSlice = async (config: any, successCallback, failCallback) => {
     return completeMerge(endConfig);
   });
 };
-/**
- * @description: 完成切片合并的操作
- * @param {*} config 相关的配置
- */
-const completeMerge = async (config) => {
-  const { chunksCount, reqUrlList, requireAction, uploadId: _uploadId, fileName, fileLength } = config;
-  if (chunksCount < reqUrlList.length) {
-    return false;
-  }
-
-  try {
-    await axios.post(
-      `${requireAction}/fileupload/upload/complete`,
-      { uploadId: _uploadId },
-      {
-        headers: {
-          token: localStorage.getItem('token'),
-        },
-      },
-    );
-  } catch (error) {
-    console.error(error, '操作失败');
-  }
-  /*  如果最后成功断点续传对应的标记去掉 */
-  return { fileName, fileLength };
-};
 
 const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
   const {
@@ -299,7 +320,7 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
   /* 用于上传的签名(也用于断点续传的签名Id) */
   const [uploadIdAndErrorId, setUploadIdAndErrorId] = useState({});
   /* 文件上传前进行的一系列操作 */
-  const customRequest = async (option) => {
+  const customRequest = async (option: any) => {
     /* 先判断下有没有断点续传的文件 */
     const _file = option.file as File;
     /* 要处理的文件数据 */
@@ -330,7 +351,7 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
         uploadIdAndErrorId, // 文件上传错误集合
       },
       /* 成功 */
-      (count, handleReqUrl) => {
+      (count: number, handleReqUrl: string) => {
         /* 获取计数 */
         setSliceProgressDetail(Math.round((count / handleReqUrl.length) * 100));
         if (count === handleReqUrl.length) {
@@ -340,20 +361,26 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
         }
       },
       /* 失败 */
-      (_uploadId) => {
+      (_uploadId: string) => {
         setSliceProgressDetail(0); /* 进度跳为0 */
         setUploadStatus('error');
-        setUploadIdAndErrorId({ ...uploadIdAndErrorId, [fileName + fileLength]: _uploadId }); /* 失败的uploadId */
+        setUploadIdAndErrorId({
+          ...uploadIdAndErrorId,
+          [fileName + fileLength]: _uploadId,
+        }); /* 失败的uploadId */
         option.onError(res);
       },
     );
     /* 断点续传重新上传时，清除一次标记 */
     if (uploadIdAndErrorId[fileName + fileLength]) {
-      setUploadIdAndErrorId({ ...uploadIdAndErrorId, [fileName + fileLength]: null });
+      setUploadIdAndErrorId({
+        ...uploadIdAndErrorId,
+        [fileName + fileLength]: null,
+      });
     }
   };
   /* 上传前的控制 */
-  const changeUpload = (file) => {
+  const changeUpload = (file: any) => {
     setUploadStatus(file.file.status);
     return false;
   };
@@ -365,7 +392,7 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
     }
   };
   /* 垃圾桶撤销 */
-  const removeUpload = (file) => {
+  const removeUpload = (file: any) => {
     if (file.status === 'uploading') {
       message?.warning('文件正在上传中，请稍后...');
       return false;

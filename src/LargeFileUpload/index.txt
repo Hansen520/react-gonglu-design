@@ -1,7 +1,7 @@
 import { Button, Form, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import pLimit from 'p-limit';
 import SparkMD5 from 'spark-md5';
 import { useState } from 'react';
@@ -159,7 +159,7 @@ const getInitConfig = async (
  * @description: 创建文件切片
  * @param {*} file
  */
-const createChunks = (file, chunkSize = 5 * 1024 * 1024) => {
+const createChunks = (file: any, chunkSize = 5 * 1024 * 1024) => {
   console.log(file, file.name, 164);
   let fileChunkList: any = [];
   let cur = 0;
@@ -168,11 +168,38 @@ const createChunks = (file, chunkSize = 5 * 1024 * 1024) => {
     cur += chunkSize;
   }
   console.log(fileChunkList, 171);
-  const _fileChunkList = fileChunkList.map((item) => {
+  const _fileChunkList = fileChunkList.map((item: any) => {
     return new Blob([item], { type: '' });
   });
   console.log(_fileChunkList, 174);
   return _fileChunkList;
+};
+
+/**
+ * @description: 完成切片合并的操作
+ * @param {*} config 相关的配置
+ */
+const completeMerge = async (config: any) => {
+  const { chunksCount, reqUrlList, requireAction, uploadId: _uploadId, fileName, fileLength } = config;
+  if (chunksCount < reqUrlList.length) {
+    return false;
+  }
+
+  try {
+    await axios.post(
+      `${requireAction}/fileupload/upload/complete`,
+      { uploadId: _uploadId },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    );
+  } catch (error) {
+    console.error(error, '操作失败');
+  }
+  /*  如果最后成功断点续传对应的标记去掉 */
+  return { fileName, fileLength };
 };
 
 /**
@@ -181,7 +208,7 @@ const createChunks = (file, chunkSize = 5 * 1024 * 1024) => {
  * @param {*} successCallback 成功的回调
  * @param {*} failCallback 失败的回调
  */
-const uploadSlice = async (config: any, successCallback, failCallback) => {
+const uploadSlice = async (config: any, successCallback: any, failCallback: any) => {
   let { fileChunksList, reqUrlList, requireAction, uploadId, limitRequire, fileName, fileLength, uploadIdAndErrorId } =
     config;
   if (fileChunksList.length < 1) {
@@ -250,32 +277,7 @@ const uploadSlice = async (config: any, successCallback, failCallback) => {
     return completeMerge(endConfig);
   });
 };
-/**
- * @description: 完成切片合并的操作
- * @param {*} config 相关的配置
- */
-const completeMerge = async (config) => {
-  const { chunksCount, reqUrlList, requireAction, uploadId: _uploadId, fileName, fileLength } = config;
-  if (chunksCount < reqUrlList.length) {
-    return false;
-  }
 
-  try {
-    await axios.post(
-      `${requireAction}/fileupload/upload/complete`,
-      { uploadId: _uploadId },
-      {
-        headers: {
-          token: localStorage.getItem('token'),
-        },
-      },
-    );
-  } catch (error) {
-    console.error(error, '操作失败');
-  }
-  /*  如果最后成功断点续传对应的标记去掉 */
-  return { fileName, fileLength };
-};
 
 /* 入口函数 */
 const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {

@@ -2,16 +2,25 @@
  * @Date: 2023-09-12 10:05:43
  * @Description: description
  */
-import { useState, useCallback, useEffect, useRef, useImperativeHandle } from 'react';
+import { debounce } from 'lodash-es';
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { observerDomResize } from './index';
-import { debounce } from 'lodash';
 
 export default function useAutoResize(ref: any) {
   const domRef = useRef<any>(null);
   const [state, setState] = useState({ width: 0, height: 0 });
 
   const setWH = useCallback(() => {
-    const { clientWidth, clientHeight } = domRef.current || { clientWidth: 0, clientHeight: 0 };
+    const { clientWidth, clientHeight } = domRef.current || {
+      clientWidth: 0,
+      clientHeight: 0,
+    };
 
     setState({ width: clientWidth, height: clientHeight });
 
