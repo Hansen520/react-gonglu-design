@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "antd": "^5.9.3",
+    "dayjs": "^1.11.10",
     "lodash-es": "^4.17.21",
     "spark-md5": "^3.0.2"
   },
