@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkreact_gonglu_design=self.webpackChunkreact_gonglu_design||[]).push([[698,575],{73531:function(t,_,n){n.r(_);var a=n(67294),s=n(85400),e=n(85893);function u(){return(0,e.jsx)("div",{children:(0,e.jsx)(s.LargeFileUpload,{})})}_.default=u}}]);
