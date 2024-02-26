@@ -85,7 +85,7 @@ const changeBuffer = (file: File) => {
       /* 得到文件名 */
       HASH = spark.end();
       /* 获取后缀名 */
-      suffix = /\.([a-zA-Z0-9]+)$/.exec(file.name)[1];
+      suffix = (/\.([a-zA-Z0-9]+)$/.exec(file.name) as any)[1];
 
       console.log(HASH, suffix, spark);
 
@@ -318,7 +318,7 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
   /* 切片上传进度详情 */
   const [sliceProgressDetail, setSliceProgressDetail] = useState(0);
   /* 用于上传的签名(也用于断点续传的签名Id) */
-  const [uploadIdAndErrorId, setUploadIdAndErrorId] = useState({});
+  const [uploadIdAndErrorId, setUploadIdAndErrorId] = useState<any>();
   /* 文件上传前进行的一系列操作 */
   const customRequest = async (option: any) => {
     /* 先判断下有没有断点续传的文件 */

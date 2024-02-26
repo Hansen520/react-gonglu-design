@@ -1,6 +1,6 @@
 {
   "name": "react-gonglu-design",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "react组件库",
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -22,7 +22,8 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "test:all": "jest --coverage --bail"
   },
   "commitlint": {
     "extends": [
@@ -62,6 +63,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
+    "babel-plugin-import": "^1.13.8",
     "dumi": "^2.2.9",
     "eslint": "^8.23.0",
     "father": "^4.1.0",

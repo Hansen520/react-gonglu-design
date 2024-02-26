@@ -477,7 +477,7 @@ const ScrollBoard = forwardRef(
         /* while用于不断的数据轮询 */
         while (true) {
           /* animation(start) 这一步要先执行完毕再跳转到下一步 */
-          yield* animation(start);
+          yield* animation(start) as any;
           start = false;
           const { waitTime }: any = stateRef.current.mergedConfig;
 
@@ -584,7 +584,7 @@ const ScrollBoard = forwardRef(
 );
 
 ScrollBoard.propTypes = {
-  config: PropTypes.object,
+  // config: PropTypes.object,
   onClick: PropTypes.func,
   onMouseOver: PropTypes.func,
   className: PropTypes.string,

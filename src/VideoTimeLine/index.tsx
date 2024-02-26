@@ -132,7 +132,7 @@ const TimeLine = ({ starttime, endtime, playtime, onChange }: Props) => {
       }
     };
     render(0);
-    const handleAction = (e, type: string) => {
+    const handleAction = (e: any, type: string) => {
       let currTime;
       switch (type) {
         case 'mousemove':
