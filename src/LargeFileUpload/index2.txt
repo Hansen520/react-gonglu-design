@@ -1,0 +1,11 @@
+import React from 'react';
+
+function IndexCopy() {
+  return (
+    <div>
+      IndexCopy
+    </div>
+  );
+}
+
+export default IndexCopy;

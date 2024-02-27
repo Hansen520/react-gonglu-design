@@ -6,7 +6,6 @@ import pLimit from 'p-limit';
 import { useState } from 'react';
 import SparkMD5 from 'spark-md5';
 // import { config as iceConfig } from 'ice';
-// import appStore from '@/store';
 import styles from './index.module.less';
 
 // const { BASE_URL } = iceConfig;
@@ -85,7 +84,7 @@ const changeBuffer = (file: File) => {
       /* 得到文件名 */
       HASH = spark.end();
       /* 获取后缀名 */
-      suffix = (/\.([a-zA-Z0-9]+)$/.exec(file.name) as any)[1];
+      suffix = /\.([a-zA-Z0-9]+)$/.exec(file.name)[1];
 
       console.log(HASH, suffix, spark);
 
@@ -115,12 +114,12 @@ const changeBuffer = (file: File) => {
  * @param {*} DEFAULT_CHUNK_SIZE // 默认单个切片大小
  */
 const getInitConfig = async (
-  fileLength: number,
+  fileLength: any,
   fileName: string,
   requireAction: string,
   HASH: string,
   DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024,
-  uploadIdAndErrorId: any,
+  uploadIdAndErrorId: string,
 ) => {
   // 数据基本化配置
   let result;
@@ -128,7 +127,7 @@ const getInitConfig = async (
     const res = await axios.post(
       `${requireAction}/fileupload/upload/init`,
       {
-        appCode: 'gongluUpload',
+        appCode: 'test001',
         uploadCode: 'gongluFastDFS',
         fileName,
         fileLength,
@@ -160,7 +159,7 @@ const getInitConfig = async (
  * @description: 创建文件切片
  * @param {*} file
  */
-const createChunks = (file: File, chunkSize = 5 * 1024 * 1024) => {
+const createChunks = (file: any, chunkSize = 5 * 1024 * 1024) => {
   console.log(file, file.name, 164);
   let fileChunkList: any = [];
   let cur = 0;
@@ -234,7 +233,6 @@ const uploadSlice = async (
   if (fileChunksList.length < 1) {
     return false;
   }
-  console.log(fileChunksList, 192);
   /* 加载失败后用于断点续传的功能 */
   const reUpload = () => {
     let chunks: any = [];
@@ -300,25 +298,27 @@ const uploadSlice = async (
   });
 };
 
+/* 入口函数 */
 const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
+  /* 这边可以设置全局默认参数 */
   const {
     name = 'file',
     title = '上传',
-    requireAction = 'http://192.168.1.86:2231',
+    requireAction = 'http://192.168.1.200:2231',
     listType = 'picture',
-    minSliceSize = 5,
-    limitRequire = 6,
+    minSliceSize = 0.25,
+    limitRequire = 2,
     fieldProps,
     formItemFieldProps,
     className,
     children,
   } = props;
   /* 当前文件上传的状态 done为已上传完毕，uploading正在上传 */
-  const [uploadStatus, setUploadStatus] = useState('done');
+  const [uploadStatus, setUploadStatus] = useState<string>('done');
   /* 切片上传进度详情 */
-  const [sliceProgressDetail, setSliceProgressDetail] = useState(0);
+  const [sliceProgressDetail, setSliceProgressDetail] = useState<number>(0);
   /* 用于上传的签名(也用于断点续传的签名Id) */
-  const [uploadIdAndErrorId, setUploadIdAndErrorId] = useState<any>();
+  const [uploadIdAndErrorId, setUploadIdAndErrorId] = useState<any>({});
   /* 文件上传前进行的一系列操作 */
   const customRequest = async (option: any) => {
     /* 先判断下有没有断点续传的文件 */
@@ -372,7 +372,7 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
       },
     );
     /* 断点续传重新上传时，清除一次标记 */
-    if (uploadIdAndErrorId[fileName + fileLength]) {
+    if (uploadIdAndErrorId[`${fileName}${fileLength}`]) {
       setUploadIdAndErrorId({
         ...uploadIdAndErrorId,
         [fileName + fileLength]: null,
