@@ -12,5 +12,5 @@
       "react-gonglu-design/*": ["src/*", "*"]
     }
   },
-  "include": [".dumirc.ts", "src/**/*"]
+  "include": [".dumirc.ts", "src/**/*", "public/hash-worker.ts"]
 }
