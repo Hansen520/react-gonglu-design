@@ -4,14 +4,15 @@
  */
 import { Button } from 'antd';
 import axios from 'axios';
+// import pLimit from 'p-limit';
 import { ChangeEvent, useRef, useState } from 'react';
-// import self from './hash';
 
 const SIZE = 1024 * 1024 * 10; // 切片大小，这里设置为10MB
 enum Status {
   wait = 'wait',
   pause = 'pause',
   uploading = 'uploading',
+  done = 'done',
 }
 
 interface Data {
@@ -27,14 +28,13 @@ function LargeFileReact() {
   /* 文件的数据 */
   const [file, setFile] = useState<File>(); // 文件信息
   const [status, setStatus] = useState<Status>(); // 当前上传的状态
-  // const [fileHash, setFileHash] = useState<string>(''); // 文件的hash信息
-  const [worker, setWorker] = useState<any>({}); // worker线程
   const [hashPercentage, setHashPercentage] = useState<number>(0); // 文件的hash值
   const refData = useRef<{ fileHash: string; data: Data[] }>({
     fileHash: '',
     data: [],
   });
 
+  /* 选择文件 */
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.files![0]);
     const file = event.target.files![0];
@@ -56,6 +56,7 @@ function LargeFileReact() {
   /* 计算文件的hash信息 */
   const calculateHash = (fileChunkList: { file: Blob }[]) => {
     return new Promise((resolve: (e: string) => void) => {
+      /* 采用工作线程来给文件hash */
       const worker = new Worker('/hash-worker.js');
       worker.postMessage({ fileChunkList });
       worker.onmessage = (e: any) => {
@@ -63,7 +64,6 @@ function LargeFileReact() {
         setHashPercentage(percentage);
         if (hash) resolve(hash);
       };
-      setWorker(worker);
     });
   };
 
@@ -82,8 +82,8 @@ function LargeFileReact() {
   };
 
   // 用闭包保存每个 chunk 的进度数据
-
   const createProgressHandler = (item: any) => {
+    setStatus(Status.uploading);
     return (e: any) => {
       item.percentage = parseInt(String((e.loaded / e.total) * 100));
     };
@@ -104,12 +104,13 @@ function LargeFileReact() {
         },
       },
     );
+    setStatus(Status.done);
     console.log('合并成功');
-    setStatus(Status.wait);
   };
 
   // 上传切片
   const uploadChunks = async (uploadedList: any = []) => {
+    // const limit = pLimit(6);
     const requestList = refData.current?.data
       // hash为每一个chunk重新排序后的hash
       ?.filter(({ hash }) => !uploadedList.includes(hash))
@@ -178,9 +179,7 @@ function LargeFileReact() {
       {JSON.stringify(file?.size)}
       <Button onClick={handleUpload}>上传</Button>
       {status}
-      {JSON.stringify(worker)}
-      {hashPercentage}
-      {/* {fileHash} */}
+      文件正在hash中{hashPercentage}
     </div>
   );
 }

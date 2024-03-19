@@ -53,6 +53,7 @@
     "classnames": "^2.5.1",
     "dayjs": "^1.11.10",
     "lodash-es": "^4.17.21",
+    "p-limit": "^5.0.0",
     "spark-md5": "^3.0.2"
   },
   "devDependencies": {
