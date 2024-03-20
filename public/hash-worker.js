@@ -13,7 +13,6 @@ self.onmessage = (e) => {
       count++;
       spark.append(e.target.result);
       if (count === fileChunkList.length) {
-        console.log('finished', spark.end());
         self.postMessage({
           percentage: 100,
           hash: spark.end(),

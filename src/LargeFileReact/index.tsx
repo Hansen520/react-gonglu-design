@@ -62,6 +62,7 @@ function LargeFileReact() {
       worker.onmessage = (e: any) => {
         const { percentage, hash } = e.data;
         setHashPercentage(percentage);
+        
         if (hash) resolve(hash);
       };
     });
@@ -176,10 +177,9 @@ function LargeFileReact() {
   return (
     <div>
       <input type="file" onChange={handleFileChange} />
-      {JSON.stringify(file?.size)}
       <Button onClick={handleUpload}>上传</Button>
-      {status}
-      文件正在hash中{hashPercentage}
+      当前文件的状态:{status}
+      文件正在hash中:{hashPercentage}
     </div>
   );
 }
