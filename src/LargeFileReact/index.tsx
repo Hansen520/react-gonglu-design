@@ -29,9 +29,10 @@ function LargeFileReact() {
   const [file, setFile] = useState<File>(); // 文件信息
   const [status, setStatus] = useState<Status>(); // 当前上传的状态
   const [hashPercentage, setHashPercentage] = useState<number>(0); // 文件的hash值
-  const refData = useRef<{ fileHash: string; data: Data[] }>({
+  const refData = useRef<{ fileHash: string; data: Data[]; worker: any }>({
     fileHash: '',
     data: [],
+    worker: null,
   });
 
   /* 选择文件 */
@@ -62,9 +63,9 @@ function LargeFileReact() {
       worker.onmessage = (e: any) => {
         const { percentage, hash } = e.data;
         setHashPercentage(percentage);
-        
         if (hash) resolve(hash);
       };
+      refData.current.worker = worker;
     });
   };
 
@@ -127,7 +128,7 @@ function LargeFileReact() {
       })
       .map(({ formData, index }) =>
         axios.post('http://localhost:3000', formData, {
-          onUploadProgress: createProgressHandler(refData.current?.data[index]),
+          onUploadProgress: createProgressHandler(refData.current?.data[index])
         }),
       ) as [];
     await Promise.all(requestList);
@@ -174,10 +175,31 @@ function LargeFileReact() {
     await uploadChunks(uploadedList as any);
   };
 
+  const handleDelete = async () => {
+    const { data } = await axios.post('http://localhost:3000/delete');
+    if (data.code === 0) {
+      alert('删除成功');
+    }
+  };
+
+  const resetData = () => {
+    // requestList
+    if (refData.current.worker) {
+      refData.current.worker.onmessage = null;
+    }
+  };
+
+  const handlePause = async () => {
+    setStatus(Status.pause);
+    resetData();
+  };
+
   return (
     <div>
       <input type="file" onChange={handleFileChange} />
       <Button onClick={handleUpload}>上传</Button>
+      <Button onClick={handleDelete}>删除</Button>
+      <Button onClick={handlePause}>暂停</Button>
       当前文件的状态:{status}
       文件正在hash中:{hashPercentage}
     </div>

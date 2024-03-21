@@ -1,10 +1,11 @@
-import { Button, Form, message, Upload } from 'antd';
+```javascript
 import { UploadOutlined } from '@ant-design/icons';
+import { Button, Form, message, Upload } from 'antd';
 import axios from 'axios';
 import _ from 'lodash-es';
 import pLimit from 'p-limit';
-import SparkMD5 from 'spark-md5';
 import { useState } from 'react';
+import SparkMD5 from 'spark-md5';
 // import { config as iceConfig } from 'ice';
 import styles from './index.module.less';
 
@@ -127,7 +128,7 @@ const getInitConfig = async (
     const res = await axios.post(
       `${requireAction}/fileupload/upload/init`,
       {
-        appCode: 'gongluUpload',
+        appCode: 'test001',
         uploadCode: 'gongluFastDFS',
         fileName,
         fileLength,
@@ -180,7 +181,14 @@ const createChunks = (file: any, chunkSize = 5 * 1024 * 1024) => {
  * @param {*} config 相关的配置
  */
 const completeMerge = async (config: any) => {
-  const { chunksCount, reqUrlList, requireAction, uploadId: _uploadId, fileName, fileLength } = config;
+  const {
+    chunksCount,
+    reqUrlList,
+    requireAction,
+    uploadId: _uploadId,
+    fileName,
+    fileLength,
+  } = config;
   if (chunksCount < reqUrlList.length) {
     return false;
   }
@@ -208,9 +216,21 @@ const completeMerge = async (config: any) => {
  * @param {*} successCallback 成功的回调
  * @param {*} failCallback 失败的回调
  */
-const uploadSlice = async (config: any, successCallback: any, failCallback: any) => {
-  let { fileChunksList, reqUrlList, requireAction, uploadId, limitRequire, fileName, fileLength, uploadIdAndErrorId } =
-    config;
+const uploadSlice = async (
+  config: any,
+  successCallback: any,
+  failCallback: any,
+) => {
+  let {
+    fileChunksList,
+    reqUrlList,
+    requireAction,
+    uploadId,
+    limitRequire,
+    fileName,
+    fileLength,
+    uploadIdAndErrorId,
+  } = config;
   if (fileChunksList.length < 1) {
     return false;
   }
@@ -229,7 +249,8 @@ const uploadSlice = async (config: any, successCallback: any, failCallback: any)
     };
   };
   if (uploadIdAndErrorId[fileName + fileLength]) {
-    const { urls, chunks } = uploadIdAndErrorId[fileName + fileLength] && reUpload();
+    const { urls, chunks } =
+      uploadIdAndErrorId[fileName + fileLength] && reUpload();
     reqUrlList = urls;
     fileChunksList = chunks;
   }
@@ -278,14 +299,13 @@ const uploadSlice = async (config: any, successCallback: any, failCallback: any)
   });
 };
 
-
 /* 入口函数 */
 const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
   /* 这边可以设置全局默认参数 */
   const {
     name = 'file',
     title = '上传',
-    requireAction = 'http://192.168.1.86:2231',
+    requireAction = 'http://192.168.1.200:2231',
     listType = 'picture',
     minSliceSize = 0.25,
     limitRequire = 2,
@@ -345,13 +365,19 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
       (_uploadId: string) => {
         setSliceProgressDetail(0); /* 进度跳为0 */
         setUploadStatus('error');
-        setUploadIdAndErrorId({ ...uploadIdAndErrorId, [fileName + fileLength]: _uploadId }); /* 失败的uploadId */
+        setUploadIdAndErrorId({
+          ...uploadIdAndErrorId,
+          [fileName + fileLength]: _uploadId,
+        }); /* 失败的uploadId */
         option.onError(res);
       },
     );
     /* 断点续传重新上传时，清除一次标记 */
     if (uploadIdAndErrorId[`${fileName}${fileLength}`]) {
-      setUploadIdAndErrorId({ ...uploadIdAndErrorId, [fileName + fileLength]: null });
+      setUploadIdAndErrorId({
+        ...uploadIdAndErrorId,
+        [fileName + fileLength]: null,
+      });
     }
   };
   /* 上传前的控制 */
@@ -429,3 +455,4 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
   );
 };
 export default Index;
+```

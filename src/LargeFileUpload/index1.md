@@ -1,3 +1,4 @@
+```javascript
 import { Button, Form, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -429,3 +430,4 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
   );
 };
 export default Index;
+```
