@@ -1,0 +1,76 @@
+.vr-scroll-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll;
+
+  .vr-scroll-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background: #666;
+  }
+
+  .vr-scroll-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.vr-scroll-line {
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  .vr-scroll-item {
+    height: 100%;
+    line-height: 40px;
+    color: #999;
+
+    &.lt {
+      margin-left: 10px;
+    }
+
+    &.gt {
+      margin-right: 10px;
+    }
+  }
+
+  &.one {
+    height: 50px;
+  }
+
+  &.two {
+    height: 100px;
+
+    .item {
+      color: #666;
+    }
+  }
+
+  &.three {
+    height: 150px;
+
+    .item {
+      color: #005aa0;
+    }
+
+    .img-container {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 100px;
+        height: 100px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
