@@ -1,3 +1,7 @@
+/*
+ * @Date: 2024-03-21 15:30:24
+ * @Description: description
+ */
 // 通过 npm 安装 sdk npm install cos-nodejs-sdk-v5
 // SECRETID 和 SECRETKEY 请登录 https://console.cloud.tencent.com/cam/capi 进行查看和管理
 // nodejs 端可直接使用 CAM 密钥计算签名，建议用限制最小权限的子用户的 CAM 密钥
@@ -11,8 +15,8 @@ const Bucket = 'han-9999-1257066862';
 const Region = 'ap-nanjing';
 
 const cos = new COS({
-  SecretId: 'AKID44IJHC31Efw0qlhow2xjNGOlGxXt6B3l', // 推荐使用环境变量获取；用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参考https://cloud.tencent.com/document/product/598/37140
-  SecretKey: 'jXn6XAocQEwQgRI5nZKE1iMuOyncN1Y2', // 推荐使用环境变量获取；用户的 SecretKey，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参考https://cloud.tencent.com/document/product/598/37140
+  SecretId: '', // 推荐使用环境变量获取；用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参考https://cloud.tencent.com/document/product/598/37140
+  SecretKey: '', // 推荐使用环境变量获取；用户的 SecretKey，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参考https://cloud.tencent.com/document/product/598/37140
 });
 
 module.exports = class {
