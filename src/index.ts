@@ -13,4 +13,3 @@ export { default as MiniCalendar } from './MiniCalendar';
 export { default as RankList } from './RankList';
 export { default as ScrollBoard } from './ScrollBoard';
 export { default as VideoTimeLine } from './VideoTimeLine';
-export { default as VrScroll } from './VrScroll';
