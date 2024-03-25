@@ -100,17 +100,6 @@ const VRScroll = ({ cache_screens = 1 }) => {
     while (start < end) {
       const midIndex = Math.floor((start + end) / 2);
       const { top, height } = listRef.current[midIndex];
-      console.log(
-        'top',
-        top,
-        'height',
-        height,
-        'scrollTop',
-        scrollTop,
-        'midIndex',
-        midIndex,
-        95,
-      );
       if (scrollTop >= top && scrollTop <= top + height) {
         start = midIndex;
         break;
