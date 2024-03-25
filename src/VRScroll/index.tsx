@@ -182,6 +182,7 @@ const VRScroll = ({ cache_screens = 1 }) => {
   useEffect(() => {
     genData();
     init();
+    // 如果数据大于一定量的规模的时候，可以通过判断启动下面这个方法函数！
     getRunData();
   }, []);
 
