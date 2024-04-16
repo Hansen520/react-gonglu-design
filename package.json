@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "antd": "^5.9.3",
+    "async-validator": "^4.2.5",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.10",
