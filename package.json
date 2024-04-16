@@ -55,6 +55,7 @@
     "dayjs": "^1.11.10",
     "lodash-es": "^4.17.21",
     "p-limit": "^5.0.0",
+    "react-transition-group": "^4.4.5",
     "spark-md5": "^3.0.2"
   },
   "devDependencies": {
@@ -65,6 +66,7 @@
     "@types/lodash-es": "^4.17.9",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@types/react-transition-group": "^4.4.10",
     "@umijs/lint": "^4.0.0",
     "babel-plugin-import": "^1.13.8",
     "dumi": "^2.2.9",

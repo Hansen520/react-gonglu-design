@@ -77,20 +77,38 @@ function UseStore(defaultPosition: Position) {
       return id;
     },
 
-    // update: (id: number, messageProps: MessageProps) => {
-    //   if (!id) return;
+    update: (id: number, messageProps: MessageProps) => {
+      if (!id) return;
 
-    //   setMessageList((preState) => {
-    //     const nextState = {...preState};
-    //     const { position, index } = findMessage(nextState, id);
+      setMessageList((preState) => {
+        const nextState = { ...preState };
+        const { position, index } = findMessage(nextState, id);
 
-    //   })
+        if (position && index !== -1) {
+          nextState[position][index] = {
+            ...nextState[position][index],
+            ...messageProps,
+          };
+        }
+        return nextState;
+      });
+    },
 
-    // },
+    remove: (id: number) => {
+      setMessageList((prevState) => {
+        const position = getMessagePosition(prevState, id);
 
-    // remove: (id: number) => {},
+        if (!position) return prevState;
+        return {
+          ...prevState,
+          [position]: prevState[position].filter((notice) => notice.id !== id),
+        };
+      });
+    },
 
-    clearAll: () => {},
+    clearAll: () => {
+      setMessageList({ ...initialState });
+    },
   };
 }
 

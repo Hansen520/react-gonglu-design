@@ -10,6 +10,7 @@ export { default as Form } from './Form';
 export { default as Icon } from './Icon';
 export { default as LargeFileReact } from './LargeFileReact';
 export { default as LargeFileUpload } from './LargeFileUpload';
+export { default as MessageProvider } from './Message';
 export { default as MiniCalendar } from './MiniCalendar';
 export { default as RankList } from './RankList';
 export { default as ScrollBoard } from './ScrollBoard';
