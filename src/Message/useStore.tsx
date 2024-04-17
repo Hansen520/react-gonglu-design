@@ -64,6 +64,7 @@ function UseStore(defaultPosition: Position) {
         }
         const position = messageProps.position || defaultPosition;
         const isTop = position.includes('top');
+        // 关键的代码信息,往消息队列上加
         const messages = isTop
           ? // 一个message在前面添加信息，一个是在后面添加信息
             [{ ...messageProps, id }, ...(preState[position] ?? [])]

@@ -1,11 +1,13 @@
 .message-enter {
   opacity: 0;
-  transform: scale(1.1);
+  transform: rotate(180deg);
+  transform: translate3d(0, '10px', 0);
 }
 
 .message-enter-active {
   opacity: 1;
-  transform: scale(1);
+  transform: rotate(0);
+  transform: translate3d(0, 0, 0);
   transition: opacity,transform 1s ease;
 }
 
