@@ -48,6 +48,7 @@
     ]
   },
   "dependencies": {
+    "@floating-ui/react": "^0.26.12",
     "antd": "^5.9.3",
     "async-validator": "^4.2.5",
     "axios": "^1.6.8",
