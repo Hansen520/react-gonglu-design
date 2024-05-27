@@ -1,16 +1,31 @@
 /*
- * @Date: 2023-09-14 15:50:11
- * @Description: description
+ * @Date: 2024-05-27 15:50:11
+ * @Description: 相关的类型描述
  */
 /* 初始化数据 */
-export type Globals = "-moz-initial" | "inherit" | "initial" | "revert" | "revert-layer" | "unset";
+export type Globals =
+  | '-moz-initial'
+  | 'inherit'
+  | 'initial'
+  | 'revert'
+  | 'revert-layer'
+  | 'unset';
 export interface defaultState {
   mergedConfig: any;
   header: string[];
   rows: any[];
   widths: number[];
   heights: number[];
-  aligns: Array<Globals | "center" | "end" | "justify" | "left" | "match-parent" | "right" | "start">;
+  aligns: Array<
+    | Globals
+    | 'center'
+    | 'end'
+    | 'justify'
+    | 'left'
+    | 'match-parent'
+    | 'right'
+    | 'start'
+  >;
 }
 
 /* 表头项目及字段以及是否出现tooltip */
@@ -18,15 +33,29 @@ interface Column {
   title: string;
   dataIndex: string;
   ellipsis?: boolean;
-  render?: (dataIndex: string, allData: any) => {};
+  render?: (dataIndex: string, allData: any) => void;
 }
 
 /* 边框样式 */
 interface BorderStyle {
   border?: string;
-  borderStyle?: "none" | "hidden" | "dotted" | "dashed" | "solid" | "double" | "groove" | "ridge" | "inset" | "outset";
+  borderStyle?:
+    | 'none'
+    | 'hidden'
+    | 'dotted'
+    | 'dashed'
+    | 'solid'
+    | 'double'
+    | 'groove'
+    | 'ridge'
+    | 'inset'
+    | 'outset';
   borderWidth?: string;
   borderColor?: string;
+  borderLeft?: string;
+  borderRight?: string;
+  borderTop?: string;
+  borderBottom?: string;
 }
 
 /* 相关的配置信息 */

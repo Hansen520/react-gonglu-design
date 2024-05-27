@@ -51,61 +51,59 @@ const defaultConfig = {
   /**
    * @description Header background color
    * @type {String}
-   * @default headerBGC = '#62c9e9'
+   * @default headerBGC = '#9999FF'
    */
-  headerBGC: '#62c9e9',
+  headerBGC: '#9999FF',
   /**
    * @description Odd row background color
    * @type {String}
-   * @default oddRowBGC = '#4fa3c2cc'
+   * @default oddRowBGC = '#CCCC66'
    */
-  oddRowBGC: '#4fa3c2cc',
+  oddRowBGC: '#CCCC66',
   /**
    * @description Even row background color
    * @type {String}
-   * @default evenRowBGC = '#5097592c'
+   * @default evenRowBGC = '##fff'
    */
-  evenRowBGC: '#5097592c',
+  evenRowBGC: '#fff',
+  /**
+   * @description header color
+   * @type {String}
+   * @default headerColor = '#000000'
+   */
+  headerColor: '#000000',
   /**
    * @description Odd row border color
    * @type {String}
    * @default oddRowBorder = {
-   *  borderWidth: '0 2px 0 2px',
-      borderStyle: 'dashed',
-      borderColor: '#37ecc5',
+   *  borderLeft: '2px dashed #000000'
    * }
    */
-  oddRowBorder: {
-    borderWidth: '0 2px 0 2px',
-    borderStyle: 'dashed',
-    borderColor: '#37ecc5',
-  },
+  oddRowBorder:
+    {
+      borderLeft: '2px dashed #000000',
+      borderRight: '2px dashed #000000',
+    } || 'none',
   /**
    * @description Even row border color
    * @type {String}
    * @default evenRowBorder = {
-   * borderWidth: '0 2px 0 2px',
-     borderStyle: 'dashed',
-     borderColor: '#37ecc5',
+   *  borderLeft: '2px dashed #000000'
+   *  borderRight: '2px dashed #000000'
    * }
    */
-  evenRowBorder: {
-    borderWidth: '0 2px 0 2px',
-    borderStyle: 'dashed',
-    borderColor: '#37ecc5',
-  },
-  /**
-   * @description header color
-   * @type {String}
-   * @default evenRowBGC = '#000000'
-   */
-  headerColor: '#000000',
+  evenRowBorder:
+    {
+      borderLeft: '2px dashed #000000',
+      borderRight: '2px dashed #000000',
+    } || 'none',
   /**
    * @description row color
    * @type {String}
-   * @default rowColor = '#fff'
+   * @default rowColor = '#000'
    */
-  rowColor: '#fff',
+
+  rowColor: '#000',
   /**
    * @description Scroll wait time
    * @type {Number}
@@ -460,8 +458,10 @@ const ScrollBoard = forwardRef(
           })();
     }
 
+    /* 背景颜色调值 */
     const getBackgroundColor = (rowIndex: number) =>
       mergedConfig[rowIndex % 2 === 0 ? 'evenRowBGC' : 'oddRowBGC'];
+    /* 边框调值 */
     const getBorderStyle = (rowIndex: number) =>
       mergedConfig[rowIndex % 2 === 0 ? 'evenRowBorder' : 'oddRowBorder'];
 
@@ -506,7 +506,7 @@ const ScrollBoard = forwardRef(
     useEffect(onResize, [width, height, domRef.current]);
 
     const classNames = useMemo(
-      () => classnames('dv-scroll-board', className),
+      () => classnames('gong-lu-scroll-board', className),
       [className],
     );
 
