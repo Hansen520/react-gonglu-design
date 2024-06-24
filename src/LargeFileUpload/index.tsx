@@ -1,10 +1,10 @@
-import { Button, Form, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { Button, Form, message, Upload } from 'antd';
 import axios from 'axios';
 import _ from 'lodash-es';
 import pLimit from 'p-limit';
-import SparkMD5 from 'spark-md5';
 import { useState } from 'react';
+import SparkMD5 from 'spark-md5';
 // import { config as iceConfig } from 'ice';
 import styles from './index.module.less';
 
@@ -84,7 +84,7 @@ const changeBuffer = (file: File) => {
       /* 得到文件名 */
       HASH = spark.end();
       /* 获取后缀名 */
-      suffix = /\.([a-zA-Z0-9]+)$/.exec(file.name)[1];
+      suffix = (/\.([a-zA-Z0-9]+)$/.exec(file.name) as any)[1];
 
       console.log(HASH, suffix, spark);
 
@@ -131,7 +131,7 @@ const getInitConfig = async (
         uploadCode: 'gongluFastDFS',
         fileName,
         fileLength,
-        uploadId: uploadIdAndErrorId[`${fileName}${fileLength}`] || '', // 用于断点续传的功能
+        uploadId: uploadIdAndErrorId[`${fileName}${fileLength}` as any] || '', // 用于断点续传的功能
         expectChunkCount: Math.ceil(fileLength / DEFAULT_CHUNK_SIZE), // 假设以5M为单位设置总的切片大小
       },
       {
@@ -180,7 +180,14 @@ const createChunks = (file: any, chunkSize = 5 * 1024 * 1024) => {
  * @param {*} config 相关的配置
  */
 const completeMerge = async (config: any) => {
-  const { chunksCount, reqUrlList, requireAction, uploadId: _uploadId, fileName, fileLength } = config;
+  const {
+    chunksCount,
+    reqUrlList,
+    requireAction,
+    uploadId: _uploadId,
+    fileName,
+    fileLength,
+  } = config;
   if (chunksCount < reqUrlList.length) {
     return false;
   }
@@ -208,9 +215,21 @@ const completeMerge = async (config: any) => {
  * @param {*} successCallback 成功的回调
  * @param {*} failCallback 失败的回调
  */
-const uploadSlice = async (config: any, successCallback: any, failCallback: any) => {
-  let { fileChunksList, reqUrlList, requireAction, uploadId, limitRequire, fileName, fileLength, uploadIdAndErrorId } =
-    config;
+const uploadSlice = async (
+  config: any,
+  successCallback: any,
+  failCallback: any,
+) => {
+  let {
+    fileChunksList,
+    reqUrlList,
+    requireAction,
+    uploadId,
+    limitRequire,
+    fileName,
+    fileLength,
+    uploadIdAndErrorId,
+  } = config;
   if (fileChunksList.length < 1) {
     return false;
   }
@@ -229,7 +248,8 @@ const uploadSlice = async (config: any, successCallback: any, failCallback: any)
     };
   };
   if (uploadIdAndErrorId[fileName + fileLength]) {
-    const { urls, chunks } = uploadIdAndErrorId[fileName + fileLength] && reUpload();
+    const { urls, chunks } =
+      uploadIdAndErrorId[fileName + fileLength] && reUpload();
     reqUrlList = urls;
     fileChunksList = chunks;
   }
@@ -277,7 +297,6 @@ const uploadSlice = async (config: any, successCallback: any, failCallback: any)
     return completeMerge(endConfig);
   });
 };
-
 
 /* 入口函数 */
 const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
@@ -345,13 +364,19 @@ const Index: React.FC<ProFormUploadButtonProps> = (props: any) => {
       (_uploadId: string) => {
         setSliceProgressDetail(0); /* 进度跳为0 */
         setUploadStatus('error');
-        setUploadIdAndErrorId({ ...uploadIdAndErrorId, [fileName + fileLength]: _uploadId }); /* 失败的uploadId */
+        setUploadIdAndErrorId({
+          ...uploadIdAndErrorId,
+          [fileName + fileLength]: _uploadId,
+        }); /* 失败的uploadId */
         option.onError(res);
       },
     );
     /* 断点续传重新上传时，清除一次标记 */
     if (uploadIdAndErrorId[`${fileName}${fileLength}`]) {
-      setUploadIdAndErrorId({ ...uploadIdAndErrorId, [fileName + fileLength]: null });
+      setUploadIdAndErrorId({
+        ...uploadIdAndErrorId,
+        [fileName + fileLength]: null,
+      });
     }
   };
   /* 上传前的控制 */

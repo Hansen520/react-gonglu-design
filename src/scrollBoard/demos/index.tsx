@@ -55,41 +55,6 @@ const Scroll = () => {
         quesType: '爽歪歪1',
         status: '乳酸菌',
       },
-      {
-        mineName: '哇哈哈5',
-        quesType: '爽歪歪1',
-        status: '乳酸菌',
-      },
-      {
-        mineName: '哇哈哈6',
-        quesType: '爽歪歪1',
-        status: '乳酸菌',
-      },
-      {
-        mineName: '哇哈哈7',
-        quesType: '爽歪歪1',
-        status: '乳酸菌',
-      },
-      {
-        mineName: '哇哈哈8',
-        quesType: '爽歪歪1',
-        status: '乳酸菌',
-      },
-      {
-        mineName: '哇哈哈9',
-        quesType: '爽歪歪1',
-        status: '乳酸菌',
-      },
-      {
-        mineName: '哇哈哈10',
-        quesType: '爽歪歪1',
-        status: '乳酸菌',
-      },
-      {
-        mineName: '哇哈哈11',
-        quesType: '爽歪歪1',
-        status: '乳酸菌',
-      },
     ],
     waitTime: 6000,
     oddRowBorder: {
