@@ -160,7 +160,6 @@ const getInitConfig = async (
  * @param {*} file
  */
 const createChunks = (file: any, chunkSize = 5 * 1024 * 1024) => {
-  console.log(file, file.name, 164);
   let fileChunkList: any = [];
   let cur = 0;
   while (cur < file.size) {
@@ -262,7 +261,7 @@ const uploadSlice = async (
     const formData = new FormData();
     formData.append('file', chunk);
     try {
-      console.log(reqUrlList[chunkIndex], 210);
+      // console.log(reqUrlList[chunkIndex], 210);
       uploadQueue = _.concat(
         uploadQueue,
         limit(() =>

@@ -123,12 +123,12 @@ function LargeFileReact() {
         formData.append('hash', hash); // 单个的
         formData.append('filename', file!.name);
         formData.append('fileHash', refData.current.fileHash); // 文件的
-        console.log(formData, chunk, hash, file!.name, 115);
+        // console.log(formData, chunk, hash, file!.name, 115);
         return { formData, index };
       })
       .map(({ formData, index }) =>
         axios.post('http://localhost:3000', formData, {
-          onUploadProgress: createProgressHandler(refData.current?.data[index])
+          onUploadProgress: createProgressHandler(refData.current?.data[index]),
         }),
       ) as [];
     await Promise.all(requestList);

@@ -11,7 +11,7 @@ import {
   useMemo,
 } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import './index.scss';
+import './index.less';
 import useStore from './useStore';
 import useTimer from './useTimer';
 

@@ -1,40 +1,32 @@
 # react-gonglu-design
 
-[![NPM version](https://img.shields.io/npm/v/react-gonglu-design.svg?style=flat)](https://npmjs.org/package/react-gonglu-design)
-[![NPM downloads](http://img.shields.io/npm/dm/react-gonglu-design.svg?style=flat)](https://npmjs.org/package/react-gonglu-design)
+实用的组件库，一款来自组件库的爱！
 
-react组件库
+## 简介
 
-## Usage
+特色，我们开发中一些实用的工具函数，分为三种打包模式 esModule，global 模式
 
-TODO
+## 安装下载
 
-## Options
+- 下载地址 https://github.com/Hansen520/react-gonglu-design/releases
 
-TODO
+- 以下安装方式根据你是 npm 还是 yarn 来
 
-## Development
+  npm i react-gonglu-design
 
-```bash
-# install dependencies
-$ yarn install
+  yarn add react-gonglu-design
 
-# develop library by docs demo
-$ yarn start
+- CDN https://unpkg.com/react-gonglu-design
 
-# build library source code
-$ yarn run build
+## 快速使用
 
-# build library source code in watch mode
-$ yarn run build:watch
+简单的接入文档
+文档生成 方式 npm run docs:build 或 yarn docs:build
 
-# build docs
-$ yarn run docs:build
+- [使用文件](./doc/use/PEADME.md)
+- [二次开发文档](./doc/dev/README.md)
 
-# check your project for potential problems
-$ yarn run doctor
-```
+## 交流 & 提问
 
-## LICENSE
-
-MIT
+- 提问: https://github.com/Hansen520/react-gonglu-design/issues
+- QQ 群、微信群 (即时反馈)
